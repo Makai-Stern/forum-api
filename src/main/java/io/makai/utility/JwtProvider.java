@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.makai.constant.AppConstants;
 import io.makai.entity.UserEntity;
+import io.makai.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.makai.constant.AppConstants.TOKEN_COOKIE_NAME;
+import static io.makai.constant.AppConstants.TOKEN_PREFIX;
 
 @Component
 public class JwtProvider {
@@ -55,18 +59,9 @@ public class JwtProvider {
         try {
             Jwts.parser().setSigningKey(dotenv.get("SECRET_KEY")).parseClaimsJws(token);
             return true;
-        } catch (SignatureException e) {
-            System.out.println("Invalid JWT Signature");
-        } catch (MalformedJwtException ex) {
-            System.out.println("Invalid JWT Token");
-        } catch (ExpiredJwtException ex) {
-            System.out.println("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
-            System.out.println("Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
-            System.out.println("JWT claims string is empty");
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
 
     public String getUserIdFromToken(String token){
@@ -84,10 +79,10 @@ public class JwtProvider {
      */
     public String getTokenFromRequest(HttpServletRequest request){
 
-        Cookie cookie = WebUtils.getCookie(request, "access_token");
-        String token = cookie.getValue().replace("Bearer+", "Bearer ");
+        Cookie cookie = WebUtils.getCookie(request, TOKEN_COOKIE_NAME);
+        String token = cookie.getValue().replace("Bearer+", TOKEN_PREFIX);
 
-        if(StringUtils.hasText(token) && token.startsWith(AppConstants.TOKEN_PREFIX)){
+        if(StringUtils.hasText(token) && token.startsWith(TOKEN_PREFIX)){
             return token.substring(7, token.length());
         }
 
