@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  forum:
+    container_name: forum
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: forum
+    ports:
+      - "3308:3306"
