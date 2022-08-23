@@ -18,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static io.makai.constant.AppConstants.AUTH_LOGIN_ROUTE;
+import static io.makai.constant.AppConstants.AUTH_REGISTER_ROUTE;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -58,7 +61,7 @@ public class SecurityConfiguration {
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(AppConstants.AUTH_ENTRY_ROUTES).permitAll()
+                .antMatchers(AUTH_REGISTER_ROUTE, AUTH_LOGIN_ROUTE).permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()

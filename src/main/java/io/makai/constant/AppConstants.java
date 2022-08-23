@@ -2,7 +2,9 @@ package io.makai.constant;
 
 public class AppConstants {
 
-    public static final String AUTH_ENTRY_ROUTES = "/api/v1/auth/**";
+    public static final String AUTH_REGISTER_ROUTE = "/api/v1/auth/register";
+
+    public static final String AUTH_LOGIN_ROUTE = "/api/v1/auth/login";
 
     public static final String TOKEN_PREFIX = "Bearer ";
 
