@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
+import static io.makai.constant.AppConstants.TOKEN_COOKIE_NAME;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -33,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        Cookie cookie = WebUtils.getCookie(request, "access_token");
+        Cookie cookie = WebUtils.getCookie(request, TOKEN_COOKIE_NAME);
         if (cookie != null) {
             try {
 
@@ -49,12 +51,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    removeTokenCookie(response);
                 }
-
             } catch (Exception e) {
+                removeTokenCookie(response);
                 throw new UnauthorizedException();
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private void removeTokenCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie(TOKEN_COOKIE_NAME, null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        //add a cookie to response
+        response.addCookie(cookie);
     }
 }
