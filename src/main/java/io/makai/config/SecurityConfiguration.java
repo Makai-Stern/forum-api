@@ -47,16 +47,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-        // Configure AuthenticationManagerBuilder
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-        // Get AuthenticationManager
        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
+                // .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint) -> throw UnauthorizedException instead
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()

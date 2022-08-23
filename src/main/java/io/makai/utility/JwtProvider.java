@@ -2,15 +2,10 @@ package io.makai.utility;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.makai.constant.AppConstants;
 import io.makai.entity.UserEntity;
-import io.makai.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

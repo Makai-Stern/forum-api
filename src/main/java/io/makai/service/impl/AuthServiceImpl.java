@@ -27,6 +27,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
+import static io.makai.constant.AppConstants.TOKEN_COOKIE_NAME;
 import static io.makai.enums.RoleType.ROLE_USER;
 
 @Service
@@ -102,27 +103,20 @@ public class AuthServiceImpl implements AuthService {
 
             String token = AppConstants.TOKEN_PREFIX +  jwtProvider.generateToken(authentication);
 
-            // Set Cookie
-            // create a cookie
-            Cookie cookie = new Cookie("access_token", URLEncoder.encode(token, "UTF-8"));
-
+            Cookie cookie = new Cookie(TOKEN_COOKIE_NAME, URLEncoder.encode(token, "UTF-8"));
             cookie.setMaxAge((int) (new Date().getTime() + AppConstants.EXPIRATION_TIME));
-
-            // optional properties
-//            cookie.setSecure(true);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
 
-            // add cookie to response
             httpServletResponse.addCookie(cookie);
 
             //Add token to Api response
-            response.setData("access_token", token);
+            response.setData(TOKEN_COOKIE_NAME, token);
 
             // Set status
             status = HttpStatus.OK;
         } catch (AuthenticationException e) {
-            throw new ApiException("Failed to Authenticate");
+            throw new UnauthorizedException();
         } catch (Exception e) {
             throw new RuntimeException();
         }

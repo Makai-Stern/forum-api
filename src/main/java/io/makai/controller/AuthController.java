@@ -51,8 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(
-            @Valid @RequestBody AuthDto userData,
+    public ResponseEntity<ApiResponse> login(@RequestBody AuthDto userData,
             BindingResult result,
             HttpServletResponse response) {
 
