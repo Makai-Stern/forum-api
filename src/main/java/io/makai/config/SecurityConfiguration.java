@@ -1,6 +1,5 @@
 package io.makai.config;
 
-import io.makai.constant.AppConstants;
 import io.makai.controller.AppAuthenticationEntryPoint;
 import io.makai.filter.JwtAuthenticationFilter;
 import io.makai.service.impl.AppUserDetailsService;
