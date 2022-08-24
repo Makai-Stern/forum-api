@@ -13,5 +13,5 @@ public interface UpVoteRepository extends PagingAndSortingRepository<UpVoteEntit
     @Query(value =
             "SELECT * FROM upvotes WHERE post_id = :postId",
             nativeQuery = true)
-    List<PostEntity> findByPostId(@Param("postId") String postId, Pageable pageable);
+    List<UpVoteEntity> findByPostId(@Param("postId") String postId, Pageable pageable);
 }

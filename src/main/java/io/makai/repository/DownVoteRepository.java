@@ -13,5 +13,5 @@ public interface DownVoteRepository extends PagingAndSortingRepository<DownVoteE
     @Query(value =
             "SELECT * FROM upvotes WHERE post_id = :postId",
             nativeQuery = true)
-    List<PostEntity> findByPostId(@Param("postId") String postId, Pageable pageable);
+    List<DownVoteEntity> findByPostId(@Param("postId") String postId, Pageable pageable);
 }
