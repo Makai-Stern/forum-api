@@ -38,11 +38,21 @@ public class UserEntity extends BaseEntity implements UserDetails {
     )
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<PostEntity> posts = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<CommentEntity> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<UpVoteEntity> upVotes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<DownVoteEntity> downVotes = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -93,6 +103,22 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    public List<UpVoteEntity> getUpVotes() {
+        return upVotes;
+    }
+
+    public void setUpVotes(List<UpVoteEntity> upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public List<DownVoteEntity> getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(List<DownVoteEntity> downVotes) {
+        this.downVotes = downVotes;
     }
 
     @Override

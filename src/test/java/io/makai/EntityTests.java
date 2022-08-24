@@ -1,11 +1,16 @@
 package io.makai;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.makai.entity.CommentEntity;
+import io.makai.entity.DownVoteEntity;
 import io.makai.entity.PostEntity;
+import io.makai.entity.UpVoteEntity;
 import io.makai.entity.UserEntity;
 import io.makai.repository.CommentRepository;
+import io.makai.repository.DownVoteRepository;
 import io.makai.repository.PostRepository;
 import io.makai.repository.RoleRepository;
+import io.makai.repository.UpVoteRepository;
 import io.makai.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -43,6 +49,15 @@ class EntityTests {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private ObjectMapper objMapper;
+
+    @Autowired
+    private UpVoteRepository upVoteRepository;
+
+    @Autowired
+    private DownVoteRepository downVoteRepository;
 
     @Test
     void contextLoads() {
@@ -138,6 +153,13 @@ class EntityTests {
         userEntity.getComments().add(comment);
         userRepository.save(userEntity);
 
+        try {
+            String commentJson = objMapper.writeValueAsString(comment);
+            System.out.println(commentJson);
+        }catch (Exception e) {
+            System.out.println("Failed to create JSON for Comment entity");
+        }
+
         return comment;
     }
 
@@ -153,5 +175,109 @@ class EntityTests {
         CommentEntity comment = createComment(user, post);
 
         assert comment.getId() != null;
+    }
+
+    @Transactional
+    public UpVoteEntity createUpVote(UserEntity user, Object obj) {
+
+        UpVoteEntity upVote = new UpVoteEntity();
+        upVote.setUser(user);
+
+        if (obj.getClass() == PostEntity.class) {
+            PostEntity post = (PostEntity) obj;
+            upVote.setPost(post);
+
+            UpVoteEntity savedUpVote = upVoteRepository.save(upVote);
+            post.getUpVotes().add(savedUpVote);
+            postRepository.save(post);
+
+            user.getUpVotes().add(savedUpVote);
+        }
+
+        if (obj.getClass() == CommentEntity.class) {
+            CommentEntity comment =  (CommentEntity) obj;
+            upVote.setComment(comment);
+
+            UpVoteEntity savedUpVote = upVoteRepository.save(upVote);
+            comment.getUpVotes().add(savedUpVote);
+            commentRepository.save(comment);
+
+            user.getUpVotes().add(savedUpVote);
+        }
+
+        userRepository.save(user);
+        return upVote;
+    }
+
+    @Transactional
+    public DownVoteEntity createDownVote(UserEntity user, Object obj) {
+
+        DownVoteEntity downVote = new DownVoteEntity();
+        downVote.setUser(user);
+
+        if (obj.getClass() == PostEntity.class) {
+            PostEntity post = (PostEntity) obj;
+            downVote.setPost(post);
+
+            DownVoteEntity savedDownVote = downVoteRepository.save(downVote);
+            post.getDownVotes().add(savedDownVote);
+            postRepository.save(post);
+
+            user.getDownVotes().add(savedDownVote);
+        }
+
+        if (obj.getClass() == CommentEntity.class) {
+            CommentEntity comment =  (CommentEntity) obj;
+            downVote.setComment(comment);
+
+            DownVoteEntity savedDownVote = downVoteRepository.save(downVote);
+            comment.getDownVotes().add(savedDownVote);
+            commentRepository.save(comment);
+
+            user.getDownVotes().add(savedDownVote);
+        }
+
+        userRepository.save(user);
+        return downVote;
+    }
+
+    @Test
+    public void createUpVoteTest() {
+        int numOfPosts = 1;
+
+        Map<String, Object> map = createPost(numOfPosts);
+        UserEntity user = (UserEntity) map.get("user");
+        PostEntity post = (PostEntity) map.get("post" + numOfPosts);
+
+        UpVoteEntity upVote = createUpVote(user, post);
+
+        try {
+            System.out.println(objMapper.writeValueAsString(upVote.getPost()));
+        } catch (Exception e) {
+            System.out.println("Failed to create JSON for Post entity");
+        }
+
+        assert upVote != null;
+    }
+
+
+    @Test
+    public void createDownVoteTest() {
+        int numOfPosts = 1;
+
+        Map<String, Object> map = createPost(numOfPosts);
+        UserEntity user = (UserEntity) map.get("user");
+        PostEntity post = (PostEntity) map.get("post" + numOfPosts);
+        CommentEntity comment = createComment(user,post);
+
+        DownVoteEntity downVote = createDownVote(user, comment);
+
+        try {
+            System.out.println(objMapper.writeValueAsString(downVote.getComment()));
+        } catch (Exception e) {
+            System.out.println("Failed to create JSON for Comment entity");
+        }
+
+        assert downVote != null;
     }
 }

@@ -28,6 +28,12 @@ public class PostEntity extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<CommentEntity> comments = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
+    private List<UpVoteEntity> upVotes = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
+    private List<DownVoteEntity> downVotes = new ArrayList<>();
+
     public PostEntity() {
     }
 
@@ -67,5 +73,29 @@ public class PostEntity extends BaseEntity {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    public List<UpVoteEntity> getUpVotes() {
+        return upVotes;
+    }
+
+    public void setUpVotes(List<UpVoteEntity> upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public List<DownVoteEntity> getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(List<DownVoteEntity> downVotes) {
+        this.downVotes = downVotes;
+    }
+
+    public int getUpVoteCount() {
+        return upVotes.size();
+    }
+
+    public int getDownVoteCount() {
+        return downVotes.size();
     }
 }
