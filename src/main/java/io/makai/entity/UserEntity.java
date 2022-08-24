@@ -4,19 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseEntity implements UserDetails   {
+public class UserEntity extends BaseEntity implements UserDetails {
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -33,7 +36,13 @@ public class UserEntity extends BaseEntity implements UserDetails   {
             joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "id")
     )
-    private List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<PostEntity> posts = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<CommentEntity> comments = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -70,6 +79,22 @@ public class UserEntity extends BaseEntity implements UserDetails   {
         this.authorities = authorities;
     }
 
+    public List<PostEntity> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostEntity> posts) {
+        this.posts = posts;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -102,5 +127,15 @@ public class UserEntity extends BaseEntity implements UserDetails   {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "username='" + username + '\'' +
+                ", bio='" + bio + '\'' +
+                ", password='" + password + '\'' +
+                ", authorities=" + authorities +
+                '}';
     }
 }
