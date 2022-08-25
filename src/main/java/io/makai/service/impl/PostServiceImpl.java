@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<List<PostEntity>>> search(PostSearchDto postSearchDto) {
+    public ResponseEntity<ApiResponse> search(PostSearchDto postSearchDto) {
 
         List<PostEntity> posts;
 
@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
             posts = postRepository.search(postSearchDto.getTerm());
         } else {
             Pageable pageable = PageRequest.of(postSearchDto.getPageNumber(), postSearchDto.getPageSize(), Sort.by("created_at").descending());
-            posts = postRepository.search(postSearchDto.getTerm(), pageable);
+            return ResponseEntity.ok(ApiResponse.ok(postRepository.search(postSearchDto.getTerm(), pageable)));
         }
 
         return ResponseEntity.ok(ApiResponse.ok(posts));
