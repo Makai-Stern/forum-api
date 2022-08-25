@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.makai.entity.CommentEntity;
 import io.makai.entity.DownVoteEntity;
 import io.makai.entity.PostEntity;
+import io.makai.entity.RoleEntity;
+import io.makai.entity.ShareEntity;
 import io.makai.entity.UpVoteEntity;
 import io.makai.entity.UserEntity;
 import io.makai.repository.CommentRepository;
 import io.makai.repository.DownVoteRepository;
 import io.makai.repository.PostRepository;
 import io.makai.repository.RoleRepository;
+import io.makai.repository.ShareRepository;
 import io.makai.repository.UpVoteRepository;
 import io.makai.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -19,11 +22,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +64,9 @@ class EntityTests {
     @Autowired
     private DownVoteRepository downVoteRepository;
 
+    @Autowired
+    private ShareRepository shareRepository;
+
     @Test
     void contextLoads() {
     }
@@ -69,8 +77,10 @@ class EntityTests {
         String password = bCryptPasswordEncoder.encode("123456");
 
         UserEntity user = new UserEntity(username, password);
-        user.setAuthorities(List.of(this.roleRepository.findByName(ROLE_USER.name())));
-        UserEntity savedUser = userRepository.save(user);
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(roleRepository.findByName(ROLE_USER.name()));
+        user.setAuthorities(roles);
+        UserEntity savedUser = userRepository.saveAndFlush(user);
 
         System.out.println(savedUser);
 
@@ -94,13 +104,12 @@ class EntityTests {
 
         for (int i = 0; i < numOfPosts; i++) {
             String key = "post" + (i + 1);
-            PostEntity post = postRepository.save(new PostEntity(title + " - post " + i, body, user));
+            PostEntity post = postRepository.saveAndFlush(new PostEntity(title + " - post " + i, body, user));
             user.getPosts().add(post);
-
             data.put(key, post);
         }
 
-        UserEntity savedUser = userRepository.save(user);
+        UserEntity savedUser = userRepository.saveAndFlush(user);
         data.put("user", savedUser);
 
         return data;
@@ -114,7 +123,7 @@ class EntityTests {
         UserEntity user = (UserEntity) map.get("user");
 
         for (int i = 0; i < numOfPosts; i++) {
-            String key = "post" + i + 1;
+            String key = "post" + (i + 1);
             PostEntity post = (PostEntity) map.get(key);
             assert post.getId() != null;
         }
@@ -145,13 +154,13 @@ class EntityTests {
     public CommentEntity createComment(UserEntity userEntity, PostEntity postEntity) {
 
         String body = "Comment created by " + userEntity.getUsername() + " at " + LocalTime.now();
-        CommentEntity comment = commentRepository.save(new CommentEntity(body, postEntity, userEntity));
+        CommentEntity comment = commentRepository.saveAndFlush(new CommentEntity(body, postEntity, userEntity));
 
         postEntity.getComments().add(comment);
-        postRepository.save(postEntity);
+        postRepository.saveAndFlush(postEntity);
 
         userEntity.getComments().add(comment);
-        userRepository.save(userEntity);
+        userRepository.saveAndFlush(userEntity);
 
         try {
             String commentJson = objMapper.writeValueAsString(comment);
@@ -177,7 +186,6 @@ class EntityTests {
         assert comment.getId() != null;
     }
 
-    @Transactional
     public UpVoteEntity createUpVote(UserEntity user, Object obj) {
 
         UpVoteEntity upVote = new UpVoteEntity();
@@ -187,9 +195,9 @@ class EntityTests {
             PostEntity post = (PostEntity) obj;
             upVote.setPost(post);
 
-            UpVoteEntity savedUpVote = upVoteRepository.save(upVote);
+            UpVoteEntity savedUpVote = upVoteRepository.saveAndFlush(upVote);
             post.getUpVotes().add(savedUpVote);
-            postRepository.save(post);
+            postRepository.saveAndFlush(post);
 
             user.getUpVotes().add(savedUpVote);
         }
@@ -198,18 +206,17 @@ class EntityTests {
             CommentEntity comment =  (CommentEntity) obj;
             upVote.setComment(comment);
 
-            UpVoteEntity savedUpVote = upVoteRepository.save(upVote);
+            UpVoteEntity savedUpVote = upVoteRepository.saveAndFlush(upVote);
             comment.getUpVotes().add(savedUpVote);
-            commentRepository.save(comment);
+            commentRepository.saveAndFlush(comment);
 
             user.getUpVotes().add(savedUpVote);
         }
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
         return upVote;
     }
 
-    @Transactional
     public DownVoteEntity createDownVote(UserEntity user, Object obj) {
 
         DownVoteEntity downVote = new DownVoteEntity();
@@ -219,9 +226,9 @@ class EntityTests {
             PostEntity post = (PostEntity) obj;
             downVote.setPost(post);
 
-            DownVoteEntity savedDownVote = downVoteRepository.save(downVote);
+            DownVoteEntity savedDownVote = downVoteRepository.saveAndFlush(downVote);
             post.getDownVotes().add(savedDownVote);
-            postRepository.save(post);
+            postRepository.saveAndFlush(post);
 
             user.getDownVotes().add(savedDownVote);
         }
@@ -230,14 +237,14 @@ class EntityTests {
             CommentEntity comment =  (CommentEntity) obj;
             downVote.setComment(comment);
 
-            DownVoteEntity savedDownVote = downVoteRepository.save(downVote);
+            DownVoteEntity savedDownVote = downVoteRepository.saveAndFlush(downVote);
             comment.getDownVotes().add(savedDownVote);
-            commentRepository.save(comment);
+            commentRepository.saveAndFlush(comment);
 
             user.getDownVotes().add(savedDownVote);
         }
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
         return downVote;
     }
 
@@ -279,5 +286,84 @@ class EntityTests {
         }
 
         assert downVote != null;
+    }
+
+    @Test
+    @Transactional
+    public void createShareCommentTest() {
+
+        UserEntity userThatShares = createUser();
+
+        int numOfPosts = 1;
+        Map<String, Object> map = createPost(numOfPosts);
+        UserEntity userThatPosts = (UserEntity) map.get("user");
+        PostEntity post = (PostEntity) map.get("post" + numOfPosts);
+        CommentEntity comment = createComment(userThatPosts, post);
+
+        ShareEntity shareComment = shareRepository.saveAndFlush(new ShareEntity(comment, userThatShares));
+
+        comment.getShares().add(shareComment);
+        commentRepository.saveAndFlush(comment);
+
+        userThatShares.getShares().add(shareComment);
+        UserEntity updatedUserThatShares = userRepository.saveAndFlush(userThatShares);
+
+        int pageNum = 0;
+        int pageSize = 3;
+
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+
+        // Why create unnecessarily long variable names? Because it's Java
+        List<ShareEntity> updatedUserThatSharesCommentsList = shareRepository.findSharedCommentsByUserId(updatedUserThatShares.getId(), pageable);
+
+        try {
+            System.out.println("Share: " + objMapper.writeValueAsString(updatedUserThatSharesCommentsList.get(0)));
+            System.out.println("Comment: " + objMapper.writeValueAsString(updatedUserThatSharesCommentsList.get(0).getComment()));
+        } catch (Exception e) {
+            System.out.println("\n" +  e.getMessage() + "\n");
+            System.out.println("Failed to create JSON for ShareEntity entity list");
+        }
+
+        assert updatedUserThatSharesCommentsList.size() == 1;
+        assert updatedUserThatShares.getShares() != null;
+    }
+
+    @Test
+    @Transactional
+    public void createSharePostTest() {
+
+        UserEntity userThatShares = createUser();
+
+        int numOfPosts = 1;
+        Map<String, Object> map = createPost(numOfPosts);
+        PostEntity post = (PostEntity) map.get("post" + numOfPosts);
+
+        ShareEntity sharePost = shareRepository.saveAndFlush(new ShareEntity(post, userThatShares));
+        userThatShares.getShares().add(sharePost);
+
+        post.getShares().add(sharePost);
+        postRepository.saveAndFlush(post);
+
+        userThatShares.getShares().add(sharePost);
+        UserEntity updatedUserThatShares = userRepository.saveAndFlush(userThatShares);
+
+        int pageNum = 0;
+        int pageSize = 3;
+
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+
+        // Why create unnecessarily long variable names? Because it's Java
+        List<ShareEntity> updatedUserThatSharesPostsList = shareRepository.findSharedPostsByUserId(updatedUserThatShares.getId(), pageable);
+
+        try {
+            System.out.println("Share: " + objMapper.writeValueAsString(updatedUserThatSharesPostsList.get(0)));
+            System.out.println("Post: " + objMapper.writeValueAsString(updatedUserThatSharesPostsList.get(0).getPost()));
+        } catch (Exception e) {
+            System.out.println("\n" +  e.getMessage() + "\n");
+            System.out.println("Failed to create JSON for ShareEntity entity list");
+        }
+
+        assert updatedUserThatSharesPostsList.size() == 1;
+        assert updatedUserThatShares.getShares() != null;
     }
 }

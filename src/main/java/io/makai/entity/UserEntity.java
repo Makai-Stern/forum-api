@@ -54,6 +54,10 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<ShareEntity> shares = new ArrayList<>();
+
     public UserEntity() {
     }
 
@@ -119,6 +123,14 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public void setDownVotes(List<DownVoteEntity> downVotes) {
         this.downVotes = downVotes;
+    }
+
+    public List<ShareEntity> getShares() {
+        return shares;
+    }
+
+    public void setShares(List<ShareEntity> shares) {
+        this.shares = shares;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package io.makai.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -39,6 +38,10 @@ public class CommentEntity extends BaseEntity {
     @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "comment")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "comment")
+    private List<ShareEntity> shares = new ArrayList<>();
 
     public CommentEntity() {
     }
@@ -89,11 +92,23 @@ public class CommentEntity extends BaseEntity {
         this.downVotes = downVotes;
     }
 
+    public List<ShareEntity> getShares() {
+        return shares;
+    }
+
+    public void setShares(List<ShareEntity> shares) {
+        this.shares = shares;
+    }
+
     public int getUpVoteCount() {
         return upVotes.size();
     }
 
     public int getDownVoteCount() {
         return downVotes.size();
+    }
+
+    public int getShareCount() {
+        return shares.size();
     }
 }

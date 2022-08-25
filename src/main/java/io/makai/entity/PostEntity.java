@@ -1,5 +1,8 @@
 package io.makai.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +36,10 @@ public class PostEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
+    private List<ShareEntity> shares = new ArrayList<>();
 
     public PostEntity() {
     }
@@ -91,11 +98,24 @@ public class PostEntity extends BaseEntity {
         this.downVotes = downVotes;
     }
 
+    public List<ShareEntity> getShares() {
+        return shares;
+    }
+
+    public void setShares(List<ShareEntity> shares) {
+        this.shares = shares;
+    }
+
+
     public int getUpVoteCount() {
         return upVotes.size();
     }
 
     public int getDownVoteCount() {
         return downVotes.size();
+    }
+
+    public int getShareCount() {
+        return shares.size();
     }
 }
