@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.makai.entity.CommentEntity;
 import io.makai.entity.DownVoteEntity;
 import io.makai.entity.PostEntity;
-import io.makai.entity.RoleEntity;
 import io.makai.entity.ShareEntity;
 import io.makai.entity.UpVoteEntity;
 import io.makai.entity.UserEntity;

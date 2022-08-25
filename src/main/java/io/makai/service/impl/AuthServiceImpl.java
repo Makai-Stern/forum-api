@@ -116,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
             // Set status
             status = HttpStatus.OK;
         } catch (AuthenticationException e) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Username or password incorrect");
         } catch (Exception e) {
             throw new RuntimeException();
         }

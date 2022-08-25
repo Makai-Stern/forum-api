@@ -1,6 +1,7 @@
 package io.makai.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,7 +32,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(targetEntity = RoleEntity.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = RoleEntity.class, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "id")
@@ -39,22 +40,27 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<PostEntity> posts = new ArrayList<>();
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<CommentEntity> comments = new ArrayList<>();
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<UpVoteEntity> upVotes = new ArrayList<>();
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
     private List<ShareEntity> shares = new ArrayList<>();
 

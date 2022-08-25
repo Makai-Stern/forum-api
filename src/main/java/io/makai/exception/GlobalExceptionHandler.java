@@ -13,51 +13,44 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiResponse> handleError(ApiException ex, WebRequest request) {
+    public ResponseEntity<ApiResponse> exceptionMapper(String message, HttpStatus statusCode) {
 
         ApiResponse response = new ApiResponse();
-        response.setErrorMessage(ex.getMessage());
-
-        HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+        response.setErrorMessage(message);
         response.setStatus(statusCode);
 
         return new ResponseEntity<>(response, statusCode);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiResponse> handleError(ApiException ex, WebRequest request) {
+        return exceptionMapper(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiResponse> handleError(UnauthorizedException ex, WebRequest request) {
-
-        ApiResponse response = new ApiResponse();
-        response.setErrorMessage(ex.getMessage());
-
-        HttpStatus statusCode = HttpStatus.UNAUTHORIZED;
-        response.setStatus(statusCode);
-
-        return new ResponseEntity<>(response, statusCode);
+        return exceptionMapper(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(InvalidPermissionException.class)
+    public ResponseEntity<ApiResponse> handleError(InvalidPermissionException ex, WebRequest request) {
+        return exceptionMapper(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleError(EntityNotFoundException ex, WebRequest request) {
+        return exceptionMapper(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 
     @Override
     protected ResponseEntity handleNoHandlerFoundException(NoHandlerFoundException ex,
                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ApiResponse response = new ApiResponse();
-        response.setErrorMessage(ex.getMessage());
-
-        HttpStatus statusCode = HttpStatus.NOT_FOUND;
-        response.setStatus(statusCode);
-
-        return  new ResponseEntity<>(response, statusCode);
+        return exceptionMapper(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleError(Exception ex, WebRequest request) {
-
-        ApiResponse response = new ApiResponse();
-        response.setErrorMessage("We had trouble processing that request");
-
-        HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-        response.setStatus(statusCode);
-
-        return new ResponseEntity<>(response, statusCode);
+        return exceptionMapper("We had trouble processing that request", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

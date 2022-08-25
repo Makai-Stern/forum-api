@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ApiResponse {
+public class ApiResponse <T> {
 
     private int status;
 
@@ -26,7 +26,7 @@ public class ApiResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date timestamp;
 
-    private Object data;
+    private T data;
 
     public ApiResponse() {
         this.timestamp = new Date();
@@ -40,7 +40,7 @@ public class ApiResponse {
         }
     }
 
-    public ApiResponse(HttpStatus status, Map<String, Object> error, Object data) {
+    public ApiResponse(HttpStatus status, Map<String, Object> error, T data) {
         this.status = status.value();
         this.error = error;
         this.data = data;
@@ -55,8 +55,8 @@ public class ApiResponse {
         setPath();
     }
 
-    public static ApiResponse ok(Object data) {
-        return new ApiResponse(HttpStatus.OK, null, data);
+    public static <T> ApiResponse ok(T data) {
+        return new ApiResponse<T>(HttpStatus.OK, null, data);
     }
 
     public static ApiResponse error(String message, HttpStatus httpStatus) {
@@ -106,7 +106,7 @@ public class ApiResponse {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -118,10 +118,10 @@ public class ApiResponse {
         return timestamp;
     }
 
-    public void setData(String key, Object data) {
+    public void setData(String key, T data) {
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put(key, data);
-        this.setData(dataMap);
+        this.setData((T) dataMap);
     }
 
     public void setError(String key, Object error) {
