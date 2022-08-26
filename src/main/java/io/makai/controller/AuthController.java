@@ -60,4 +60,9 @@ public class AuthController {
 
         return this.authService.login(userData, response);
     }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletResponse response) {
+        this.authService.logout(response);
+    }
 }

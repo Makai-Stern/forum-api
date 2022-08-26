@@ -13,6 +13,8 @@ public interface AuthService {
 
     ResponseEntity<ApiResponse> login(AuthDto userData, HttpServletResponse response);
 
+    void logout(HttpServletResponse httpServletResponse);
+
     ResponseEntity<ApiResponse> whoAmI(String token,
                                        HttpServletRequest request);
 }

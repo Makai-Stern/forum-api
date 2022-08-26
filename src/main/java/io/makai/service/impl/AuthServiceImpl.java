@@ -124,6 +124,25 @@ public class AuthServiceImpl implements AuthService {
         return new ResponseEntity<>(response, status);
     }
 
+    @Override
+    public void logout(HttpServletResponse httpServletResponse) {
+        try {
+
+            SecurityContextHolder.getContext().setAuthentication(null);
+
+
+            Cookie cookie = new Cookie(TOKEN_COOKIE_NAME, null);
+            cookie.setMaxAge((int) (new Date().getTime()));
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+
+            httpServletResponse.addCookie(cookie);
+
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
 
     @Override
     public ResponseEntity<ApiResponse> whoAmI(String token,
