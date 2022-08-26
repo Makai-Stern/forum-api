@@ -56,7 +56,8 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint) -> throw UnauthorizedException instead
+                .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
+                .and()
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()

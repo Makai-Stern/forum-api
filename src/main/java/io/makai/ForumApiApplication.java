@@ -18,6 +18,6 @@ public class ForumApiApplication  {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationStart() {
-		System.out.printf("\nhttp://localhost:%d", this.port);
+		System.out.printf("\nhttp://localhost:%d", this.port, "\n");
 	}
 }

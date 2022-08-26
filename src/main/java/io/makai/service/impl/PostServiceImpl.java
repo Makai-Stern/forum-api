@@ -69,8 +69,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResponseEntity<ApiResponse<PostEntity>> delete(String postId) {
 
-        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PostEntity post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException());
+
+        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!post.getUser().getId().equalsIgnoreCase(user.getId())) {
             throw new InvalidPermissionException();
