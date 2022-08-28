@@ -84,6 +84,8 @@ public class VoteServiceImpl implements VoteService {
 
         String postId = voteDto.getPostId();
         String commentId = voteDto.getCommentId();
+        if (commentId != null && postId != null) throw new ApiException("Cannot perform that operation");
+
         int pageSize = voteDto.getPageSize();
         int pageNumber = voteDto.getPageNumber();
 
@@ -126,6 +128,8 @@ public class VoteServiceImpl implements VoteService {
 
         String postId = voteDto.getPostId();
         String commentId = voteDto.getCommentId();
+        if (commentId != null && postId != null) throw new ApiException("Cannot perform that operation");
+
         int pageSize = voteDto.getPageSize();
         int pageNumber = voteDto.getPageNumber();
 

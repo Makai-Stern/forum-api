@@ -3,6 +3,7 @@ package io.makai.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.makai.config.WebConfiguration;
 import org.springframework.http.HttpStatus;
 
@@ -16,6 +17,7 @@ public class ApiResponse <T> {
 
     private int status;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> error;
 
     @JsonIgnore
@@ -26,6 +28,7 @@ public class ApiResponse <T> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     private Date timestamp;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public ApiResponse() {

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -313,8 +314,8 @@ class EntityTests {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
 
         // Why create unnecessarily long variable names? Because it's Java
-        List<ShareEntity> updatedUserThatSharesCommentsList = shareRepository.findSharedCommentsByUserId(updatedUserThatShares.getId(), pageable);
-
+        Page<ShareEntity> updatedUserThatSharesCommentsPage = shareRepository.findSharedCommentsByUserId(updatedUserThatShares.getId(), pageable);
+        List<ShareEntity> updatedUserThatSharesCommentsList = updatedUserThatSharesCommentsPage.getContent();
         try {
             System.out.println("Share: " + objMapper.writeValueAsString(updatedUserThatSharesCommentsList.get(0)));
             System.out.println("Comment: " + objMapper.writeValueAsString(updatedUserThatSharesCommentsList.get(0).getComment()));
@@ -352,7 +353,8 @@ class EntityTests {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
 
         // Why create unnecessarily long variable names? Because it's Java
-        List<ShareEntity> updatedUserThatSharesPostsList = shareRepository.findSharedPostsByUserId(updatedUserThatShares.getId(), pageable);
+        Page<ShareEntity> updatedUserThatSharesPostsPage = shareRepository.findSharedCommentsByUserId(updatedUserThatShares.getId(), pageable);
+        List<ShareEntity> updatedUserThatSharesPostsList = updatedUserThatSharesPostsPage.getContent();
 
         try {
             System.out.println("Share: " + objMapper.writeValueAsString(updatedUserThatSharesPostsList.get(0)));

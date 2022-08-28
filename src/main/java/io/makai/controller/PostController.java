@@ -4,9 +4,11 @@ import io.makai.payload.ApiResponse;
 import io.makai.payload.dto.CommentDto;
 import io.makai.payload.dto.PostDto;
 import io.makai.payload.dto.PostSearchDto;
+import io.makai.payload.dto.ShareDto;
 import io.makai.payload.dto.VoteDto;
 import io.makai.service.CommentService;
 import io.makai.service.PostService;
+import io.makai.service.ShareService;
 import io.makai.service.VoteService;
 import io.makai.utility.ErrorMapper;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,15 @@ public class PostController {
 
     private final VoteService voteService;
 
+    private final ShareService shareService;
+
     private final ErrorMapper errorMapper;
 
-    public PostController(PostService postService, CommentService commentService, VoteService voteService, ErrorMapper errorMapper) {
+    public PostController(PostService postService, CommentService commentService, VoteService voteService, ShareService shareService, ErrorMapper errorMapper) {
         this.postService = postService;
         this.commentService = commentService;
         this.voteService = voteService;
+        this.shareService = shareService;
         this.errorMapper = errorMapper;
     }
 
@@ -79,6 +84,17 @@ public class PostController {
         voteDto.setPageNumber(pageNumber);
 
         return this.voteService.getVotes(voteDto);
+    }
+
+    @GetMapping("/{postId}/shares")
+    public ResponseEntity getPostShares(@PathVariable String postId, @RequestParam(name = "pageSize", defaultValue = "0", required = false) int pageSize, @RequestParam(name = "pageNumber", defaultValue = "0", required = false) int pageNumber) {
+
+        ShareDto shareDto = new ShareDto();
+        shareDto.setPostId(postId);
+        shareDto.setPageSize(pageSize);
+        shareDto.setPageNumber(pageNumber);
+
+        return this.shareService.getShares(shareDto);
     }
 
     @GetMapping("/{postId}/downvotes")

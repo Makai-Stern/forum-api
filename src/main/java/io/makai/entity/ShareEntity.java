@@ -1,6 +1,6 @@
 package io.makai.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +12,12 @@ import javax.persistence.Table;
 @Table(name = "shares")
 public class ShareEntity extends BaseEntity {
 
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "comment_id")
     private CommentEntity comment;
 
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private PostEntity post;
