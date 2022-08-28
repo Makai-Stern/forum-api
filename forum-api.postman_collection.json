@@ -1,0 +1,881 @@
+{
+	"info": {
+		"_postman_id": "64085e0e-0824-4c0c-91ea-2fb9a52decbd",
+		"name": "forum-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/auth/register",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Username Taken",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"testuser\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/register",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 500,\n    \"error\": {\n        \"message\": \"Username is taken\"\n    },\n    \"path\": \"/api/v1/auth/register\",\n    \"timestamp\": \"2022-08-26@21:30:57.974+0000\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "Validation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"s\",\r\n    \"password\": \"16\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/register",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": {\n        \"password\": \"size must be between 6 and 24\",\n        \"username\": \"size must be between 3 and 12\"\n    },\n    \"path\": \"/api/v1/auth/register\",\n    \"timestamp\": \"2022-08-26@21:32:01.891+0000\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"makai\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/auth/login",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Authenticated",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"makai\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/login",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"error\": {},\n    \"path\": \"/api/v1/auth/login\",\n    \"timestamp\": \"2022-08-26@21:33:15.150+0000\",\n    \"data\": {\n        \"access_token\": \"Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjczYzFjNDY1LWVhN2MtNGE5Yi1iZDZlLTg4MjFjMTM5YWY5NSIsImV4cCI6MTY2MTYzNTk5NSwiaWF0IjoxNjYxNTQ5NTk1LCJ1c2VybmFtZSI6Im1ha2FpIn0.6AS2RQzvy8RKdJaUfFwZL_mhge193MFRhfjCai7m5Wb5TW37ukXM_FIptTNoXOfcNjqb1v1zqPkuV0xSkvz1zA\"\n    }\n}"
+						},
+						{
+							"name": "Unathorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"makai1\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/login",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 401,\n    \"error\": {\n        \"message\": \"Username or password incorrect\"\n    },\n    \"path\": \"/api/v1/auth/login\",\n    \"timestamp\": \"2022-08-26@21:35:12.664+0000\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "whoami",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/auth/whoami",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"whoami"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Authenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/whoami",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"whoami"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"error\": {},\n    \"path\": \"/api/v1/auth/whoami\",\n    \"timestamp\": \"2022-08-26@21:36:12.921+0000\",\n    \"data\": {\n        \"id\": \"73c1c465-ea7c-4a9b-bd6e-8821c139af95\",\n        \"createdAt\": \"2022-08-23@19:51:25\",\n        \"updatedAt\": \"2022-08-23@19:51:25\",\n        \"username\": \"makai\",\n        \"bio\": null,\n        \"authorities\": [\n            {\n                \"id\": \"96493f01-21ec-477a-bda2-e7bc2d19e25e\",\n                \"createdAt\": \"2022-08-23@19:17:25\",\n                \"updatedAt\": \"2022-08-23@19:17:25\",\n                \"name\": \"ROLE_USER\"\n            }\n        ],\n        \"enabled\": true,\n        \"accountNonLocked\": true,\n        \"credentialsNonExpired\": true,\n        \"accountNonExpired\": true\n    }\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri}}/api/v1/auth/whoami",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"whoami"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 401,\n    \"error\": {\n        \"message\": \"Unauthorized\"\n    },\n    \"path\": \"/api/v1/auth/whoami\",\n    \"timestamp\": \"2022-08-26@21:37:32.685+0000\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/auth/logout",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "error",
+			"item": [
+				{
+					"name": "404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri}}/api",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 404,\n    \"error\": {\n        \"message\": \"No handler found for GET /api\"\n    },\n    \"path\": \"/api\",\n    \"timestamp\": \"2022-08-26@21:39:08.312+0000\",\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "Get Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"How should I go about creating a load balancer?\",\r\n    \"body\" : \"Should I use Spring Cloud or should I just go with AWS?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/posts",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Post",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\" : \"How should I go about creating a load balancer?\",\r\n    \"body\" : \"Should I use Spring Cloud or should I just go with AWS?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/posts",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\": 200,\r\n    \"error\": null,\r\n    \"path\": \"/api/v1/posts\",\r\n    \"timestamp\": \"2022-08-26@21:40:47.183+0000\",\r\n    \"data\": {\r\n        \"id\": \"0e892633-c30c-406b-bd1e-e02115147af3\",\r\n        \"createdAt\": \"2022-08-26@21:40:47\",\r\n        \"updatedAt\": \"2022-08-26@21:40:47\",\r\n        \"title\": \"How should I go about creating a load balancer?\",\r\n        \"body\": \"Should I use Spring Cloud or should I just go with AWS?\",\r\n        \"user\": {\r\n            \"id\": \"73c1c465-ea7c-4a9b-bd6e-8821c139af95\",\r\n            \"createdAt\": \"2022-08-23@19:51:25\",\r\n            \"updatedAt\": \"2022-08-23@19:51:25\",\r\n            \"username\": \"makai\",\r\n            \"bio\": null,\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"96493f01-21ec-477a-bda2-e7bc2d19e25e\",\r\n                    \"createdAt\": \"2022-08-23@19:17:25\",\r\n                    \"updatedAt\": \"2022-08-23@19:17:25\",\r\n                    \"name\": \"ROLE_USER\"\r\n                }\r\n            ],\r\n            \"enabled\": true,\r\n            \"accountNonLocked\": true,\r\n            \"credentialsNonExpired\": true,\r\n            \"accountNonExpired\": true\r\n        },\r\n        \"comments\": [],\r\n        \"upVotes\": [],\r\n        \"downVotes\": [],\r\n        \"shares\": [],\r\n        \"downVoteCount\": 0,\r\n        \"upVoteCount\": 0,\r\n        \"shareCount\": 0\r\n    }\r\n}"
+						},
+						{
+							"name": "Validation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\" : \"\",\r\n    \"body\" : \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/posts",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": {\n        \"title\": \"must not be blank\",\n        \"body\": \"must not be blank\"\n    },\n    \"path\": \"/api/v1/posts\",\n    \"timestamp\": \"2022-08-26@21:41:39.100+0000\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Posts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"term\": \"post\",\r\n    \"pageSize\": 10,\r\n    \"pageNumber\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/search",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Upvotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb/upvotes?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb",
+								"upvotes"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DownVotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb/downvotes?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb",
+								"downvotes"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shares",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb/shares?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb",
+								"shares"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "Get Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb/comments?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Test comment from Postman\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/posts/632f4707-2e53-4779-86f0-f62f83caafcb/comments",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"632f4707-2e53-4779-86f0-f62f83caafcb",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Updated Comment!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/comments/996dedd3-4b1b-4680-9fd5-5b5712d69e15",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"996dedd3-4b1b-4680-9fd5-5b5712d69e15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/comments/996dedd3-4b1b-4680-9fd5-5b5712d69e15",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"996dedd3-4b1b-4680-9fd5-5b5712d69e15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UpVotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/comments/a9c781e0-3dc0-448a-b471-bf425d4efdd3/downvotes",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"a9c781e0-3dc0-448a-b471-bf425d4efdd3",
+								"downvotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DownVotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/comments/996dedd3-4b1b-4680-9fd5-5b5712d69e15/upvotes",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"996dedd3-4b1b-4680-9fd5-5b5712d69e15",
+								"upvotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shares",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/comments/a9c781e0-3dc0-448a-b471-bf425d4efdd3/shares",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"a9c781e0-3dc0-448a-b471-bf425d4efdd3",
+								"shares"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "votes",
+			"item": [
+				{
+					"name": "Vote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": \"632f4707-2e53-4779-86f0-f62f83caafcb\",\r\n    \"isUpVote\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/vote",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"vote"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "UpVote Comment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"commentId\": \"4a3283be-006a-4103-8784-439ad8dfc5e5\",\r\n    \"isUpVote\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/vote",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"vote"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"error\": {},\n    \"path\": \"/api/v1/vote\",\n    \"timestamp\": \"2022-08-28@00:18:31.762+0000\",\n    \"data\": {\n        \"message\": \"UpVote Removed\"\n    }\n}"
+						},
+						{
+							"name": "UpVote Post",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"632f4707-2e53-4779-86f0-f62f83caafcb\",\r\n    \"isUpVote\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uri}}/api/v1/vote",
+									"host": [
+										"{{uri}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"vote"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"error\": {},\n    \"path\": \"/api/v1/vote\",\n    \"timestamp\": \"2022-08-28@01:00:49.704+0000\",\n    \"data\": {\n        \"id\": \"c7f7a67c-93da-4b05-a21e-52b865da6d41\",\n        \"createdAt\": \"2022-08-28@01:00:54\",\n        \"updatedAt\": \"2022-08-28@01:00:54\",\n        \"post\": {\n            \"id\": \"632f4707-2e53-4779-86f0-f62f83caafcb\",\n            \"createdAt\": \"2022-08-25@20:30:30\",\n            \"updatedAt\": \"2022-08-25@20:30:30\",\n            \"title\": \"How do I create a Load Balancer?\",\n            \"body\": \"Help me...\",\n            \"user\": {\n                \"id\": \"73c1c465-ea7c-4a9b-bd6e-8821c139af95\",\n                \"createdAt\": \"2022-08-23@19:51:25\",\n                \"updatedAt\": \"2022-08-23@19:51:25\",\n                \"username\": \"makai\",\n                \"bio\": null,\n                \"authorities\": [\n                    {\n                        \"id\": \"96493f01-21ec-477a-bda2-e7bc2d19e25e\",\n                        \"createdAt\": \"2022-08-23@19:17:25\",\n                        \"updatedAt\": \"2022-08-23@19:17:25\",\n                        \"name\": \"ROLE_USER\"\n                    }\n                ],\n                \"enabled\": true,\n                \"accountNonLocked\": true,\n                \"credentialsNonExpired\": true,\n                \"accountNonExpired\": true\n            },\n            \"upVoteCount\": 1,\n            \"shareCount\": 0,\n            \"downVoteCount\": 0,\n            \"commentCount\": 9\n        },\n        \"user\": {\n            \"id\": \"73c1c465-ea7c-4a9b-bd6e-8821c139af95\",\n            \"createdAt\": \"2022-08-23@19:51:25\",\n            \"updatedAt\": \"2022-08-23@19:51:25\",\n            \"username\": \"makai\",\n            \"bio\": null,\n            \"authorities\": [\n                {\n                    \"id\": \"96493f01-21ec-477a-bda2-e7bc2d19e25e\",\n                    \"createdAt\": \"2022-08-23@19:17:25\",\n                    \"updatedAt\": \"2022-08-23@19:17:25\",\n                    \"name\": \"ROLE_USER\"\n                }\n            ],\n            \"enabled\": true,\n            \"accountNonLocked\": true,\n            \"credentialsNonExpired\": true,\n            \"accountNonExpired\": true\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "shares",
+			"item": [
+				{
+					"name": "Share",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": \"632f4707-2e53-4779-86f0-f62f83caafcb\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/share",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"share"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
