@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface PostService {
 
-    ResponseEntity<ApiResponse> create(PostDto postDto);
+    ResponseEntity<ApiResponse<PostEntity>> create(PostDto postDto);
 
-    ResponseEntity<ApiResponse> search(PostSearchDto postSearchDto);
+    ResponseEntity<ApiResponse<Iterable<PostEntity>>> search(PostSearchDto postSearchDto);
 
     ResponseEntity<ApiResponse<PostEntity>> findById(String postId);
 

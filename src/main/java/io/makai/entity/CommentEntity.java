@@ -31,14 +31,17 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "comment")
     private List<UpVoteEntity> upVotes = new ArrayList<>();
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "comment")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "comment")
     private List<ShareEntity> shares = new ArrayList<>();

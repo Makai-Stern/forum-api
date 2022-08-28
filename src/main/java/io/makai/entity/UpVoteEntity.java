@@ -1,6 +1,8 @@
 package io.makai.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,17 +14,17 @@ import javax.persistence.Table;
 @Table(name = "upvotes")
 public class UpVoteEntity extends BaseEntity {
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonInclude(Include.NON_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "comment_id")
     private CommentEntity comment;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonInclude(Include.NON_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private PostEntity post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 

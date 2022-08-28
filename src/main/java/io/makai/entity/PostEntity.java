@@ -1,5 +1,6 @@
 package io.makai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -28,15 +29,22 @@ public class PostEntity extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
     private List<CommentEntity> comments = new ArrayList<>();
 
+    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
     private List<UpVoteEntity> upVotes = new ArrayList<>();
 
+    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
     private List<DownVoteEntity> downVotes = new ArrayList<>();
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.EXTRA)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "post")
     private List<ShareEntity> shares = new ArrayList<>();
@@ -106,6 +114,9 @@ public class PostEntity extends BaseEntity {
         this.shares = shares;
     }
 
+    public int getCommentCount() {
+        return comments.size();
+    }
 
     public int getUpVoteCount() {
         return upVotes.size();

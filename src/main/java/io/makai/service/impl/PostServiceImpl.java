@@ -32,7 +32,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> create(PostDto postDto) {
+    public ResponseEntity<ApiResponse<PostEntity>> create(PostDto postDto) {
 
         UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -44,15 +44,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse> search(PostSearchDto postSearchDto) {
+    public ResponseEntity<ApiResponse<Iterable<PostEntity>>> search(PostSearchDto postSearchDto) {
 
         List<PostEntity> posts;
 
-        if (postSearchDto.getPageSize() == 0) {
-            posts = postRepository.search(postSearchDto.getTerm());
-        } else {
+        int pageSize = postSearchDto.getPageSize();
+        int pageNumber = postSearchDto.getPageNumber();
+
+        if (pageSize > 0 && (pageNumber == 0 || pageNumber > 0)) {
             Pageable pageable = PageRequest.of(postSearchDto.getPageNumber(), postSearchDto.getPageSize(), Sort.by("created_at").descending());
             return ResponseEntity.ok(ApiResponse.ok(postRepository.search(postSearchDto.getTerm(), pageable)));
+        } else {
+            posts = postRepository.search(postSearchDto.getTerm());
         }
 
         return ResponseEntity.ok(ApiResponse.ok(posts));
