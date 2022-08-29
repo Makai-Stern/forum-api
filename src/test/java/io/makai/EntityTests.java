@@ -1,5 +1,6 @@
 package io.makai;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.makai.entity.CommentEntity;
 import io.makai.entity.DownVoteEntity;
@@ -7,6 +8,7 @@ import io.makai.entity.PostEntity;
 import io.makai.entity.ShareEntity;
 import io.makai.entity.UpVoteEntity;
 import io.makai.entity.UserEntity;
+import io.makai.payload.dto.TopUserDto;
 import io.makai.repository.CommentRepository;
 import io.makai.repository.DownVoteRepository;
 import io.makai.repository.PostRepository;
@@ -26,10 +28,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -367,4 +371,35 @@ class EntityTests {
         assert updatedUserThatSharesPostsList.size() == 1;
         assert updatedUserThatShares.getShares() != null;
     }
+
+    @Test
+    public void getTopUsers()  {
+
+        List<TopUserDto> users = userRepository.getTopUsers(5);
+        assert users.size() == 5;
+
+        try {
+            System.out.println("users: " + objMapper.writeValueAsString(users));
+        } catch (Exception e) {
+            System.out.println("\n" + e.getMessage() + "\n");
+        }
+
+        for (TopUserDto user: users) {
+            System.out.println(user.getUsername());
+
+            try {
+                System.out.println("User: " + objMapper.writeValueAsString(user));
+            } catch (Exception e) {
+                System.out.println("\n" +  e.getMessage() + "\n");
+                System.out.println("Failed to create JSON for TopUserDto ");
+            }
+        }
+
+        try {
+            System.out.println(objMapper.writeValueAsString(users));
+        } catch (JsonProcessingException e) {
+            System.out.println(e);
+        }
+    }
+
 }
