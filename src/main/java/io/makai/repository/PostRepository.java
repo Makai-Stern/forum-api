@@ -14,7 +14,12 @@ public interface PostRepository extends JpaRepository<PostEntity, String> {
     @Query(value =
             "SELECT * FROM posts WHERE user_id = :userId",
             nativeQuery = true)
-    List<PostEntity> findByUserId(@Param("userId") String userId, Pageable pageable);
+    Page<PostEntity> findByUserId(@Param("userId") String userId, Pageable pageable);
+
+    @Query(value =
+            "SELECT * FROM posts WHERE user_id = :userId",
+            nativeQuery = true)
+    List<PostEntity> findByUserId(@Param("userId") String userId);
 
     @Query(value =
             "SELECT * FROM posts WHERE title LIKE CONCAT('%', ?1, '%')",

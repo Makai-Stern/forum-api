@@ -147,12 +147,12 @@ class EntityTests {
         int pageSize = 10;
 
         Pageable pageable1 = PageRequest.of(pageNum, pageSize, Sort.by("created_at").descending());
-        List<PostEntity> page1 = postRepository.findByUserId(user.getId(), pageable1);
-        assert page1.size() == pageSize;
+        Page<PostEntity> page1 = postRepository.findByUserId(user.getId(), pageable1);
+        assert page1.getContent().size() == pageSize;
 
         Pageable pageable2 = PageRequest.of(pageNum + 1, pageSize, Sort.by("created_at").descending());
-        List<PostEntity> page2 = postRepository.findByUserId(user.getId(), pageable2);
-        assert page2.size() == 1;
+        Page<PostEntity> page2 = postRepository.findByUserId(user.getId(), pageable2);
+        assert page2.getContent().size() == 1;
     }
 
     public CommentEntity createComment(UserEntity userEntity, PostEntity postEntity) {

@@ -5,6 +5,7 @@ import io.makai.filter.JwtAuthenticationFilter;
 import io.makai.service.impl.AppUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -61,6 +62,12 @@ public class SecurityConfiguration {
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/v1/posts").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/comments").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/comments/**").permitAll()
                 .antMatchers(AUTH_REGISTER_ROUTE, AUTH_LOGIN_ROUTE).permitAll()
                 .and()
                 .authorizeRequests()

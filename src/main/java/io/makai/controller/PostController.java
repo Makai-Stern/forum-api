@@ -46,6 +46,11 @@ public class PostController {
         this.errorMapper = errorMapper;
     }
 
+    @GetMapping
+    public ResponseEntity getPosts(@RequestParam(name = "pageNumber", defaultValue = "0", required = false) int pageNumber, @RequestParam(name = "pageSize", defaultValue = "0", required = false) int pageSize) {
+        return this.postService.findAll(pageNumber, pageSize);
+    }
+
     @GetMapping("/{postId}")
     public ResponseEntity getPost(@PathVariable String postId) {
         return this.postService.findById(postId);

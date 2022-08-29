@@ -1,6 +1,7 @@
 package io.makai.service.impl;
 
 import io.makai.entity.PostEntity;
+import io.makai.entity.ShareEntity;
 import io.makai.entity.UserEntity;
 import io.makai.exception.EntityNotFoundException;
 import io.makai.exception.InvalidPermissionException;
@@ -10,9 +11,11 @@ import io.makai.payload.dto.PostSearchDto;
 import io.makai.repository.PostRepository;
 import io.makai.service.PostService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -67,6 +70,25 @@ public class PostServiceImpl implements PostService {
         PostEntity post = postRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException());
 
         return ResponseEntity.ok(ApiResponse.ok(post));
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<List<PostEntity>>> findAll(int pageNumber, int pageSize) {
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatus(HttpStatus.OK);
+
+        if (pageSize > 0 && (pageNumber == 0 || pageNumber > 0)) {
+            // Use property "createdAt" because nativeQuery = false
+            Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
+            Page<PostEntity> posts = postRepository.findAll(pageable);
+            apiResponse.setData(posts);
+        } else {
+            List<PostEntity> posts = postRepository.findAll();
+            apiResponse.setData(posts);
+        }
+
+        return ResponseEntity.ok(apiResponse);
     }
 
     @Override
