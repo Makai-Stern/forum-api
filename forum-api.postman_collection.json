@@ -352,6 +352,31 @@
 					"response": []
 				},
 				{
+					"name": "Get all Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/posts?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Post",
 					"request": {
 						"method": "POST",
@@ -872,6 +897,77 @@
 								"share"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Get Trending Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/users/top?pageSize=5",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"top"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "POST",
+						"header": []
 					},
 					"response": []
 				}
