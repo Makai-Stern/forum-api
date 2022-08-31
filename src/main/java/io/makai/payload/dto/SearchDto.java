@@ -3,7 +3,7 @@ package io.makai.payload.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class PostSearchDto {
+public class SearchDto {
 
     @NotBlank
     @Size(max = 100)

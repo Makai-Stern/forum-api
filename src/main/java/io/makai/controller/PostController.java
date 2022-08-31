@@ -3,7 +3,7 @@ package io.makai.controller;
 import io.makai.payload.ApiResponse;
 import io.makai.payload.dto.CommentDto;
 import io.makai.payload.dto.PostDto;
-import io.makai.payload.dto.PostSearchDto;
+import io.makai.payload.dto.SearchDto;
 import io.makai.payload.dto.ShareDto;
 import io.makai.payload.dto.VoteDto;
 import io.makai.service.CommentService;
@@ -120,11 +120,11 @@ public class PostController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity search(@Valid @RequestBody PostSearchDto postSearchDto, BindingResult result) {
+    public ResponseEntity search(@Valid @RequestBody SearchDto searchDto, BindingResult result) {
 
         ResponseEntity<ApiResponse> errorMap = errorMapper.validate(result);
         if (errorMap != null) return errorMap;
 
-        return this.postService.search(postSearchDto);
+        return this.postService.search(searchDto);
     }
 }

@@ -783,7 +783,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"postId\": \"632f4707-2e53-4779-86f0-f62f83caafcb\",\r\n    \"isUpVote\": true\r\n}",
+							"raw": "{\r\n    \"postId\": \"dfb4848d-f173-45e6-a83f-ae7b6288a4fd\",\r\n    \"isDownVote\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -879,7 +879,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"postId\": \"632f4707-2e53-4779-86f0-f62f83caafcb\"\r\n}",
+							"raw": "{\r\n    \"postId\": \"75663bdb-6f88-4ef3-bdd6-7281d3fec44f\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -905,6 +905,82 @@
 		{
 			"name": "users",
 			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/users/a83bbb57-b6d0-4a9c-b548-286194841146",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"a83bbb57-b6d0-4a9c-b548-286194841146"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"term\": \"test\",\r\n    \"pageSize\": \"10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/users/search",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/api/v1/users/a83bbb57-b6d0-4a9c-b548-286194841146/posts?pageSize=10",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"a83bbb57-b6d0-4a9c-b548-286194841146",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Get Trending Users",
 					"request": {
@@ -935,23 +1011,28 @@
 					"name": "Update User",
 					"request": {
 						"method": "PUT",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Get User",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Profile",
-					"request": {
-						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/api/v1/users/73c1c465-ea7c-4a9b-bd6e-8821c139af95",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"73c1c465-ea7c-4a9b-bd6e-8821c139af95"
+							]
+						}
 					},
 					"response": []
 				},
@@ -959,14 +1040,6 @@
 					"name": "Delete User",
 					"request": {
 						"method": "DELETE",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Search Users",
-					"request": {
-						"method": "POST",
 						"header": []
 					},
 					"response": []

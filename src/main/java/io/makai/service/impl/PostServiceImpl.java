@@ -1,13 +1,12 @@
 package io.makai.service.impl;
 
 import io.makai.entity.PostEntity;
-import io.makai.entity.ShareEntity;
 import io.makai.entity.UserEntity;
 import io.makai.exception.EntityNotFoundException;
 import io.makai.exception.InvalidPermissionException;
 import io.makai.payload.ApiResponse;
 import io.makai.payload.dto.PostDto;
-import io.makai.payload.dto.PostSearchDto;
+import io.makai.payload.dto.SearchDto;
 import io.makai.repository.PostRepository;
 import io.makai.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -47,18 +46,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<Iterable<PostEntity>>> search(PostSearchDto postSearchDto) {
+    public ResponseEntity<ApiResponse<Iterable<PostEntity>>> search(SearchDto searchDto) {
 
         List<PostEntity> posts;
 
-        int pageSize = postSearchDto.getPageSize();
-        int pageNumber = postSearchDto.getPageNumber();
+        int pageSize = searchDto.getPageSize();
+        int pageNumber = searchDto.getPageNumber();
 
         if (pageSize > 0 && (pageNumber == 0 || pageNumber > 0)) {
-            Pageable pageable = PageRequest.of(postSearchDto.getPageNumber(), postSearchDto.getPageSize(), Sort.by("created_at").descending());
-            return ResponseEntity.ok(ApiResponse.ok(postRepository.search(postSearchDto.getTerm(), pageable)));
+            Pageable pageable = PageRequest.of(searchDto.getPageNumber(), searchDto.getPageSize(), Sort.by("created_at").descending());
+            return ResponseEntity.ok(ApiResponse.ok(postRepository.search(searchDto.getTerm(), pageable)));
         } else {
-            posts = postRepository.search(postSearchDto.getTerm());
+            posts = postRepository.search(searchDto.getTerm());
         }
 
         return ResponseEntity.ok(ApiResponse.ok(posts));
