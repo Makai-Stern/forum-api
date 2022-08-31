@@ -24,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -101,9 +102,9 @@ public class AuthServiceImpl implements AuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String token = AppConstants.TOKEN_PREFIX +  jwtProvider.generateToken(authentication);
+            String token = AppConstants.TOKEN_PREFIX + jwtProvider.generateToken(authentication);
 
-            Cookie cookie = new Cookie(TOKEN_COOKIE_NAME, URLEncoder.encode(token, "UTF-8"));
+            Cookie cookie = new Cookie(TOKEN_COOKIE_NAME, URLEncoder.encode(token, StandardCharsets.UTF_8));
             cookie.setMaxAge((int) (new Date().getTime() + AppConstants.EXPIRATION_TIME));
             cookie.setHttpOnly(true);
             cookie.setPath("/");
@@ -154,7 +155,7 @@ public class AuthServiceImpl implements AuthService {
         ApiResponse apiResponse = new ApiResponse();
 
         try {
-            String userId = jwtProvider.getUserIdFromToken(token.substring(7, token.length()));
+            String userId = jwtProvider.getUserIdFromToken(token.substring(7));
             UserEntity user = userRepository.findById(userId).orElse(null);
             if (user == null) throw new UnauthorizedException();
             apiResponse.setData(user);

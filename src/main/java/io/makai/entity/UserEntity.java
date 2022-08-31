@@ -34,8 +34,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     @ManyToMany(targetEntity = RoleEntity.class, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name= "role_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -76,10 +76,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
     public UserEntity(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getBio() {
@@ -151,6 +147,10 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

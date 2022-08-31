@@ -52,8 +52,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody AuthDto userData,
-            BindingResult result,
-            HttpServletResponse response) {
+                                             BindingResult result,
+                                             HttpServletResponse response) {
 
         ResponseEntity<ApiResponse> errorMap = errorMapper.validate(result);
         if (errorMap != null) return errorMap;

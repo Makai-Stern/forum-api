@@ -59,7 +59,7 @@ public class JwtProvider {
         }
     }
 
-    public String getUserIdFromToken(String token){
+    public String getUserIdFromToken(String token) {
 
         Claims claims = Jwts.parser().setSigningKey(dotenv.get("SECRET_KEY")).parseClaimsJws(token).getBody();
         String id = (String) claims.get("id");
@@ -69,16 +69,17 @@ public class JwtProvider {
 
     /**
      * Gets Token from request cookies
+     *
      * @param request HttpServletRequest
      * @return cookie/null
      */
-    public String getTokenFromRequest(HttpServletRequest request){
+    public String getTokenFromRequest(HttpServletRequest request) {
 
         Cookie cookie = WebUtils.getCookie(request, TOKEN_COOKIE_NAME);
         String token = cookie.getValue().replace("Bearer+", TOKEN_PREFIX);
 
-        if(StringUtils.hasText(token) && token.startsWith(TOKEN_PREFIX)){
-            return token.substring(7, token.length());
+        if (StringUtils.hasText(token) && token.startsWith(TOKEN_PREFIX)) {
+            return token.substring(7);
         }
 
         return null;

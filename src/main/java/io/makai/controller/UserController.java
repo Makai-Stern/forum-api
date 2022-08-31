@@ -54,7 +54,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity updateUser(@PathVariable String userId, @Valid @RequestBody UserDto userDto, BindingResult result) {
 
-        userDtoValidator.validate(userDto,result);
+        userDtoValidator.validate(userDto, result);
         ResponseEntity<ApiResponse> errorMap = errorMapper.validate(result);
         if (errorMap != null) return errorMap;
 

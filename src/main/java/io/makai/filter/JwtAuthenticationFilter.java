@@ -30,7 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private AppUserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter() {}
+    public JwtAuthenticationFilter() {
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

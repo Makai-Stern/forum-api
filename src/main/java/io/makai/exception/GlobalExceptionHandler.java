@@ -4,9 +4,7 @@ import io.makai.payload.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -46,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity handleNoHandlerFoundException(NoHandlerFoundException ex,
-                                                 HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                           HttpHeaders headers, HttpStatus status, WebRequest request) {
         return exceptionMapper(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

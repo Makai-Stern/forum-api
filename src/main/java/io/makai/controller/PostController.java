@@ -66,7 +66,7 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/comments")
-    public ResponseEntity createComment(@PathVariable String postId, @Valid @RequestBody CommentDto commentDto, BindingResult result)  {
+    public ResponseEntity createComment(@PathVariable String postId, @Valid @RequestBody CommentDto commentDto, BindingResult result) {
 
         ResponseEntity<ApiResponse> errorMap = errorMapper.validate(result);
         if (errorMap != null) return errorMap;

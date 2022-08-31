@@ -3,9 +3,9 @@ package io.makai.payload.dto;
 
 public interface TopUserDto {
 
-    public String getId();
+    String getId();
 
-    public String getUsername();
+    String getUsername();
 
-    public int getUpVoteCount();
+    int getUpVoteCount();
 }

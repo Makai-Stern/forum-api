@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ApiResponse <T> {
+public class ApiResponse<T> {
 
     private int status;
 
@@ -35,12 +35,6 @@ public class ApiResponse <T> {
         this.timestamp = new Date();
         this.error = new HashMap<>();
         setPath();
-    }
-
-    private void setPath() {
-        if (httpServletRequest != null) {
-            path = httpServletRequest.get().getRequestURI();
-        }
     }
 
     public ApiResponse(HttpStatus status, Map<String, Object> error, T data) {
@@ -69,6 +63,12 @@ public class ApiResponse <T> {
         return response;
     }
 
+    private void setPath() {
+        if (httpServletRequest != null) {
+            path = httpServletRequest.get().getRequestURI();
+        }
+    }
+
     public int getStatus() {
         return status;
     }
@@ -77,24 +77,16 @@ public class ApiResponse <T> {
         this.status = status;
     }
 
+    public void setStatus(HttpStatus status) {
+        this.status = status.value();
+    }
+
     public Optional<HttpServletRequest> getHttpServletRequest() {
         return httpServletRequest;
     }
 
     public void setHttpServletRequest(Optional<HttpServletRequest> httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status.value();
     }
 
     public Map<String, Object> getError() {
@@ -117,8 +109,16 @@ public class ApiResponse <T> {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public void setData(String key, T data) {

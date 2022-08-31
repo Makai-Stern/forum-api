@@ -27,7 +27,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return user;
     }
 
-    public UserDetails loadUserById(String id){
+    public UserDetails loadUserById(String id) {
 
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new ApiException("User not found"));
 

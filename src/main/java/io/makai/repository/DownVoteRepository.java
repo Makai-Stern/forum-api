@@ -1,7 +1,6 @@
 package io.makai.repository;
 
 import io.makai.entity.DownVoteEntity;
-import io.makai.entity.UpVoteEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

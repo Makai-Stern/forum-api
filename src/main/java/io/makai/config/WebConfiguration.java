@@ -12,9 +12,15 @@ import java.util.Optional;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private String[] inBrowserAllowedOrigins = {"*"};
-
     private final String[] inBrowserAllowedMethods = new String[]{"POST", "OPTIONS"};
+    private final String[] inBrowserAllowedOrigins = {"*"};
+
+    public static Optional<HttpServletRequest> getCurrentHttpRequest() {
+        return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .filter(ServletRequestAttributes.class::isInstance)
+                .map(ServletRequestAttributes.class::cast)
+                .map(ServletRequestAttributes::getRequest);
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -22,12 +28,5 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .allowedOrigins(inBrowserAllowedOrigins)
                 .allowedMethods(inBrowserAllowedMethods);
         registry.addMapping("/**").allowedOrigins();
-    }
-
-    public static Optional<HttpServletRequest> getCurrentHttpRequest() {
-        return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                .filter(ServletRequestAttributes.class::isInstance)
-                .map(ServletRequestAttributes.class::cast)
-                .map(ServletRequestAttributes::getRequest);
     }
 }

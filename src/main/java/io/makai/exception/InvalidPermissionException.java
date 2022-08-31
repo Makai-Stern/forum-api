@@ -2,7 +2,7 @@ package io.makai.exception;
 
 public class InvalidPermissionException extends RuntimeException {
 
-    public InvalidPermissionException()  {
+    public InvalidPermissionException() {
         super("You cannot edit this resource");
     }
 

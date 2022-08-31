@@ -10,14 +10,15 @@ import javax.validation.constraints.Size;
 public class AuthDto {
 
     @NotBlank
-    @Size(min=3, max=12)
+    @Size(min = 3, max = 12)
     private String username;
 
     @NotBlank
-    @Size(min=6, max=24)
+    @Size(min = 6, max = 24)
     private String password;
 
-    public AuthDto() {}
+    public AuthDto() {
+    }
 
     public AuthDto(String username, String password) {
         this.username = username;
