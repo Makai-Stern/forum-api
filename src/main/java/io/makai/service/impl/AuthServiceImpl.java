@@ -26,7 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.makai.constant.AppConstants.TOKEN_COOKIE_NAME;
 import static io.makai.enums.RoleType.ROLE_USER;
@@ -158,7 +160,12 @@ public class AuthServiceImpl implements AuthService {
             String userId = jwtProvider.getUserIdFromToken(token.substring(7));
             UserEntity user = userRepository.findById(userId).orElse(null);
             if (user == null) throw new UnauthorizedException();
-            apiResponse.setData(user);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("token", token);
+            data.put("user", user);
+
+            apiResponse.setData(data);
             apiResponse.setStatus(HttpStatus.OK);
         } catch (Exception e) {
             throw new UnauthorizedException();
